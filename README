@@ -1,0 +1,50 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=3205
+
+The script has updated for support both python2.x and python3.x 
+go to vimscript#3212 for new version.  
+Note: this plugin needs python3/dyn so that using gvim7.3 is easist and best way.
+
+usage:         commands:
+                 :Spydoc object
+                 the "object" can be an "imported" class, module or function(/method)
+                 the command return document string corresponding to the object.
+                 else return type of the object.
+                 if the object is "unimported" the command will fail except for
+                 modules re, vim and
+                 FunctionType, MethodType, ModuleType, BuiltinFunctionType,
+                 BuiltinMethodType imported from module types
+
+tip:             this plugin now is just designed for standart python3 library,
+                 if try the command with a user-defined "object", 
+                 be very likely to get an error "name 'object' is not defined".
+
+examples:  lets say a simple python script:
+                   import sys;
+                   form sys import path;
+                   class Test(object): pass;
+                   t = Test();
+                and input following commands:
+
+                :Spydoc sys 
+                sys document(module)
+
+                :Spydoc sys.exit
+                sys.exit document(function)
+
+                :Spydoc sys.path
+                type of sys.path(built-in type list)
+
+                :Spydoc path
+                type of os.path(same as above)
+
+                :Spydoc Test:
+                error: name 'Test' is not define
+
+                :Spydoc t:
+                error: name 't' is not define
+
+                :Spydoc sys.ss
+                error: 'module' object has no attribute 'ss'
+
+                :Spydoc sys.exit()
+                error: 'sys.exit()' is a wrong?
