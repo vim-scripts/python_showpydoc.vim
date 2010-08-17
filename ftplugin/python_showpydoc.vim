@@ -75,7 +75,7 @@ from types import ModuleType;
 from types import BuiltinFunctionType;
 from types import BuiltinMethodType;
 
-class PythonDoc(object):
+class PythonDoc_PSD117(object):
 
     class DocStringError(Exception):
         def __init__(self, value):
@@ -90,44 +90,40 @@ class PythonDoc(object):
         self._code = code;
         self._imports = [];
         self._docString = "";
-        self._object = "";
 
-    def SetCode(self, code):
-        self._code = code;
-
-    def ExtractImports(self):
-        imports = re.findall(PythonDoc._re_find_import, self._code);
+    def _ExtractImports_PSD117(self):
+        imports = re.findall(PythonDoc_PSD117._re_find_import, self._code);
         for i in imports:
            self._imports += ["".join(i)];
 
-    def GetDocString(self, objStr):
-        self.ExtractImports();
+    def GetDocString_PSD117(self, objStr_PSD117):
+        self._ExtractImports_PSD117();
         for i in self._imports:
             try: exec(i);
             except(ImportError): pass;
 
         try:
-            obj = eval(objStr);
+            obj_PSD117 = eval(objStr_PSD117);
         except(NameError, AttributeError, SyntaxError, BaseException, Exception) as e:
             if(isinstance(e, (NameError, AttributeError, SyntaxError))):
                 errMsg = str(e);
             else:
-                errMsg = repr(objStr) + " its a wrong?";
-            raise PythonDoc.DocStringError(errMsg);
+                errMsg = repr(objStr_PSD117) + " its a wrong?";
+            raise PythonDoc_PSD117.DocStringError(errMsg);
 
-        if(isinstance(obj, PythonDoc._AcpTypes)):
-            self._docString += str(obj.__doc__);
+        if(isinstance(obj_PSD117, PythonDoc_PSD117._AcpTypes)):
+            self._docString += str(obj_PSD117.__doc__);
         else:
-            self._docString = objStr + " is an instance of " + str(type(obj));
+            self._docString = objStr_PSD117 + " is an instance of " + str(type(obj_PSD117));
         return self._docString;
 
 def main(code, objStr):
 
-    pd = PythonDoc(code);
+    pd = PythonDoc_PSD117(code);
     try:
-        s = objStr + "->>>\n" + pd.GetDocString(objStr);
+        s = objStr + "->>>\n" + pd.GetDocString_PSD117(objStr);
         print(s);
-    except(PythonDoc.DocStringError) as e:
+    except(PythonDoc_PSD117.DocStringError) as e:
         print("error: " + e.value);
 
 EOF
@@ -136,10 +132,10 @@ endfunction
 function! s:CallPython(objStr)
 py3 << EOF
 
-objStr = vim.eval("a:objStr");
+objStr_PSD117 = vim.eval("a:objStr");
 code = vim.current.buffer[:];
 code = "\n".join(code);
-main(code, objStr);
+main(code, objStr_PSD117);
 
 EOF
 endfunction
